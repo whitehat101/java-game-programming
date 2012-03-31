@@ -1,13 +1,16 @@
 package labPractice2;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.RoundRectangle2D;
 
 import libs.Star2D;
 
@@ -30,6 +33,7 @@ public class LabPractice2 {
 	    //Input
         KeyAdapter l = new KeyAdapter()
         {
+            @Override
             public void keyPressed(KeyEvent key)
             {
                 //System.out.println(ke.getKeyCode());
@@ -52,57 +56,43 @@ public class LabPractice2 {
         f.requestFocus();//I'm a needy application! Look at me!
         
         Graphics2D g2d = (Graphics2D) f.getGraphics();
-        g2d.setColor( Color.getHSBColor( 0, 0, .4f ) );
+        // Enable antialiasing for text
+        g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+        // Enable antialiasing for shapes
+        g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
+        g2d.setStroke( new BasicStroke( 5.0f, // Line width
+                BasicStroke.CAP_ROUND, // End-cap style
+                BasicStroke.JOIN_ROUND ) ); // Vertex join style
+
+        // Paint BG
+        g2d.setColor( Color.getHSBColor( 0, 0, .8f ) );
         g2d.fillRect( 0, 0, 800, 600 );
         
         
-        g2d.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        g2d.setFont( new Font( "Times New Roman", Font.BOLD, 12 ) );
         g2d.setColor( Color.white );
-        g2d.drawString( "Hello World!", 0, 275 );
+        g2d.drawString( "Jeremy Ebler", 0, 10 );
+        g2d.setColor( Color.black );
         
-        
-        g2d.setColor( Color.MAGENTA );
-        g2d.fill3DRect( 5, 5, 19, 44, truew );
+        // segments
+        RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float( 50, 50, 4, 20, 5, 5 );
+        g2d.fill( roundedRectangle );
 
-        int x,y,height,width;
+        int width = 16, height = 16;
 
-        
-        // x = y^2 - 2*y
-        x = 150;
-        y = 100;
-        width = 200;
-        height = 200;
-        for(int t = -16; t < 12; t++){
-            
-            System.out.println((float)(12 - t)/32);
-            g2d.setColor(Color.getHSBColor(
-                    .42f + 3.1415926535f,
-                    (float)(12 - t)/28,
-                    (float)(12 - t)/28
-                 ));
-            g2d.fillOval( x + t*t - 2*t, y + 3*t, width - 9*t, height - 9*t);
-        }
-        
-        // x = y^2 - 2*y
-        x = 75;
-        y = 400;
-        width = 200;
-        height = 200;
-        for(int t = -12; t < 12; t++){
-            
-            System.out.println((float)(12 - t)/32);
-            /*g2d.setColor(Color.getHSBColor(
-                    .42f + 3.1415926535f,
-                    (float)(12 - t)/24,
-                    (float)(12 - t)/24
-                 ));*/
-            g2d.setColor( Color.ORANGE );
-            g2d.fillRect( x + t*t - 2*t, y + 3*t, width - 5*t - t*t, height - 5*t - t*t); 
-        }
-        
+        g2d.drawLine( 0, 0, 16, 0 );
+        g2d.drawLine( 0, 0, 0, 16 );
+
+        /*
+        Shape circle = new Ellipse2D.Float( 100.0f, 100.0f, // Upper-left corner
+                300.0f, 300.0f ); // Width and height
+        g2d.setStroke( new BasicStroke( 10.0f ) ); // Set line width
+        g2d.draw( circle ); // Now draw it
+        */
+
         //arrow
-        x=0;
-        y=280;
+        int x = 0, y = 500;
         g2d.setColor(Color.getHSBColor( .7f, .8f, .9f ) );
         g2d.fillPolygon(
                 new int[] {x, x+125, x+125, x+200, x+125, x+125, x  },
@@ -112,6 +102,7 @@ public class LabPractice2 {
         //Star
         g2d.setColor( Color.YELLOW );
         g2d.fill(new Star2D(x+200-25,y+50-25,50,50));
+
 
 	}
 }
